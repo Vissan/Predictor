@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HardwareInfo {
+    private String ClassName;
+
     private String OperationSystem;
 
     private Integer processorNum;
@@ -26,7 +28,9 @@ public class HardwareInfo {
 
     private Double CpuInLoad;
 
-    public HardwareInfo(String operationSystem, Integer processorNum, Long processorFreq, Long maxVirtualMemory, Long virtualMemoryInUse, Double designPowerCapacity, Double powerUsageRate, Long duringTime, Double cpuInLoad) {
+
+    public HardwareInfo(String ClassName, String operationSystem, Integer processorNum, Long processorFreq, Long maxVirtualMemory, Long virtualMemoryInUse, Double designPowerCapacity, Double powerUsageRate, Long duringTime, Double cpuInLoad) {
+        this.ClassName = ClassName;
         OperationSystem = operationSystem;
         this.processorNum = processorNum;
         this.processorFreq = processorFreq;

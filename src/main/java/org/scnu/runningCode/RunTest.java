@@ -7,7 +7,9 @@ import org.scnu.hardwareObject.AstInfo;
 import org.scnu.hardwareObject.CpuAndMemInUse;
 import org.scnu.hardwareObject.HardwareInfo;
 import org.scnu.runningCode.testSort.RunCode;
+import org.scnu.utils.ReadArray;
 import org.scnu.utils.WriteExcel;
+import testCode.TwoSumUsingForLoops;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,26 +27,27 @@ public class RunTest {
         Double prePowerUse = si.getPowerSourcesUseRate();
         Long prememInUse = si.getVirtualMemoryInUse();
         //从文件中读入一个数组,此处先模拟
-        int[] nums = new int[]{2,4,5,5,3,91,2,4,1,23,2,3};
+        int[] nums = ReadArray.GenerateArray();
         ReentrantLock lock = new ReentrantLock();
         long beginTime = System.nanoTime();
         lock.lock();
         //此处需要加一个锁来保证测试代码的独立执行
+        assert nums != null;
         CpuAndMemInUse inUse = new RunCode().insertSort(nums);
-        Thread.sleep(10000);
+//        Thread.sleep(10000);
+        Double postPowerUse = si.getPowerSourcesUseRate();
         lock.unlock();
         long endTime = System.nanoTime();
-        Double postPowerUse = si.getPowerSourcesUseRate();
         //转换成毫秒
         long duringTime = (endTime - beginTime) / 1000000;
         Long memInUse = inUse.getMemoryInUse() - prememInUse;
         Double cpuLoadInUse = inUse.getCpuLoadInUse();
         Double powerUsageRate = postPowerUse - prePowerUse;
-        HardwareInfo hardwareInfo = new HardwareInfo(os, processorCount, processorFreq, virtualMemoryMax, memInUse, powerSourcesCapacity, powerUsageRate, duringTime, cpuLoadInUse);
-        String fileName = "/Users/vissan/IdeaProjects/Predictor/src/main/java/org/scnu/ast/Test.java";
-        String methodName = "test";
+        String fileName = "/Users/vissan/IdeaProjects/Predictor/src/main/java/org/scnu/runningCode/testSort/RunCode.java";
+        String methodName = "insertSort";
         AstInfo astInfo = JavaParserUtil.parseMethod(fileName, methodName);
-        new WriteExcel().WriteToExcel(hardwareInfo, astInfo);
+        HardwareInfo hardwareInfo = new HardwareInfo(fileName, os, processorCount, processorFreq, virtualMemoryMax, memInUse, powerSourcesCapacity, powerUsageRate, duringTime, cpuLoadInUse);
+        new WriteExcel().WriteToExcel(hardwareInfo, astInfo, nums.length);
     }
 
     @Test

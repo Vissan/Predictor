@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class WriteExcel {
 
-    public void WriteToExcel(HardwareInfo hardwareInfo, AstInfo astInfo) {
+    public void WriteToExcel(HardwareInfo hardwareInfo, AstInfo astInfo, int ArrayLength) {
         // 创建一个新的工作簿
         try (Workbook workbook = new XSSFWorkbook()) {
             // 创建一个工作表
@@ -22,7 +22,7 @@ public class WriteExcel {
             // 创建第一行，写入属性
             Row headerRow = sheet.createRow(0);
             String[] attributes = {"操作系统", "处理器个数", "处理器频率", "最大内存 MB", "占用内存", "设计电池容量", "使用能量", "持续时间",
-                    "局部变量数", "函数调用数", "条件语句数", "迭代语句数", "输入语句数", "输出语句数", "使用函数调用来赋值数", "选择语句数", "赋值语句数"};
+                    "局部变量数", "函数调用数", "条件语句数", "迭代语句数", "输入语句数", "输出语句数", "使用函数调用来赋值数", "选择语句数", "赋值语句数", "类名", "测试数据量", "cpu载荷"};
             for (int i = 0; i < attributes.length; i++) {
                 headerRow.createCell(i).setCellValue(attributes[i]);
             }
@@ -35,7 +35,9 @@ public class WriteExcel {
             for (int i = 1; i < values.length; i++) {
                 valuesRow.createCell(i).setCellValue(values[i]);
             }
-
+            valuesRow.createCell(values.length).setCellValue(hardwareInfo.getClassName());
+            valuesRow.createCell(values.length + 1).setCellValue(ArrayLength);
+            valuesRow.createCell(values.length + 2).setCellValue(hardwareInfo.getCpuInLoad());
             // 将工作簿保存到文件
             try (FileOutputStream fileOut = new FileOutputStream("predictorMessage.xlsx")) {
                 workbook.write(fileOut);
