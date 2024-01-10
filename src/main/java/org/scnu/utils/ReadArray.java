@@ -9,7 +9,7 @@ public class ReadArray {
     public static int[] GenerateArray() {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
-            File file = new File("/Users/vissan/IdeaProjects/Predictor/src/main/resources/arrays/arrays.txt");
+            File file = new File("C:\\Users\\scnuer\\IdeaProjects\\Predictor\\src\\main\\resources\\arrays\\arrays.txt");
             InputStreamReader input = new InputStreamReader(new FileInputStream(file));
             BufferedReader bf = new BufferedReader(input);
             // 按行读取字符串

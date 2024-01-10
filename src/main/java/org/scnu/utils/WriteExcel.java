@@ -17,7 +17,7 @@ public class WriteExcel {
         // 创建一个新的工作簿
         try (Workbook workbook = new XSSFWorkbook()) {
             // 创建一个工作表
-            Sheet sheet = workbook.createSheet("predictorMessage");
+            Sheet sheet = workbook.createSheet("predictorMessage-code");
 
             // 创建第一行，写入属性
             Row headerRow = sheet.createRow(0);
@@ -39,7 +39,7 @@ public class WriteExcel {
             valuesRow.createCell(values.length + 1).setCellValue(ArrayLength);
             valuesRow.createCell(values.length + 2).setCellValue(hardwareInfo.getCpuInLoad());
             // 将工作簿保存到文件
-            try (FileOutputStream fileOut = new FileOutputStream("predictorMessage.xlsx")) {
+            try (FileOutputStream fileOut = new FileOutputStream("predictorMessage-code.xlsx")) {
                 workbook.write(fileOut);
             } catch (IOException e) {
                 e.printStackTrace();

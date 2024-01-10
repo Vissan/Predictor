@@ -7,9 +7,11 @@ import org.scnu.hardwareObject.AstInfo;
 import org.scnu.hardwareObject.CpuAndMemInUse;
 import org.scnu.hardwareObject.HardwareInfo;
 import org.scnu.runningCode.testSort.RunCode;
+import org.scnu.runningCode.testSort.RunTwo;
+import org.scnu.runningCode.testSort.TestCode;
+import org.scnu.utils.PowerMonitor;
 import org.scnu.utils.ReadArray;
 import org.scnu.utils.WriteExcel;
-import testCode.TwoSumUsingForLoops;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,7 +35,7 @@ public class RunTest {
         lock.lock();
         //此处需要加一个锁来保证测试代码的独立执行
         assert nums != null;
-        CpuAndMemInUse inUse = new RunCode().insertSort(nums);
+        CpuAndMemInUse inUse = new RunTwo().test3(nums);
 //        Thread.sleep(10000);
         Double postPowerUse = si.getPowerSourcesUseRate();
         lock.unlock();
@@ -43,8 +45,8 @@ public class RunTest {
         Long memInUse = inUse.getMemoryInUse() - prememInUse;
         Double cpuLoadInUse = inUse.getCpuLoadInUse();
         Double powerUsageRate = postPowerUse - prePowerUse;
-        String fileName = "/Users/vissan/IdeaProjects/Predictor/src/main/java/org/scnu/runningCode/testSort/RunCode.java";
-        String methodName = "insertSort";
+        String fileName = "C:\\Users\\scnuer\\IdeaProjects\\Predictor\\src\\main\\java\\org\\scnu\\runningCode\\testSort\\RunTwo.java";
+        String methodName = "test3";
         AstInfo astInfo = JavaParserUtil.parseMethod(fileName, methodName);
         HardwareInfo hardwareInfo = new HardwareInfo(fileName, os, processorCount, processorFreq, virtualMemoryMax, memInUse, powerSourcesCapacity, powerUsageRate, duringTime, cpuLoadInUse);
         new WriteExcel().WriteToExcel(hardwareInfo, astInfo, nums.length);
